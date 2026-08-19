@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A. Mariammal — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,500;1,9..144,600&family=Work+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1B1F3B;
+    --paper:#F6EFDE;
+    --marigold:#E8A33D;
+    --coral:#F2545B;
+    --teal:#3E7C6B;
+    --cream:#FBF6EA;
+    --line: rgba(27,31,59,0.16);
+    --shadow: 6px 6px 0 rgba(27,31,59,0.9);
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Work Sans', sans-serif;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+
+  ::selection{ background:var(--coral); color:var(--cream); }
+
+  a{color:inherit;}
+
+  .grain{
+    position:fixed; inset:0; pointer-events:none; z-index:5; opacity:0.05; mix-blend-mode:multiply;
+    background-image: radial-gradient(var(--ink) 0.6px, transparent 0.6px);
+    background-size: 3px 3px;
+  }
+
+  @media (prefers-reduced-motion: no-preference){
+    .reveal{ opacity:0; transform:translateY(24px); transition:opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.in{ opacity:1; transform:translateY(0); }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .reveal{ opacity:1; transform:none; }
+  }
+
+  :focus-visible{ outline:3px solid var(--coral); outline-offset:3px; }
+
+  /* ---------- Marquee ticker ---------- */
+  .ticker-wrap{
+    background:var(--ink); color:var(--marigold); overflow:hidden; white-space:nowrap;
+    border-bottom:3px solid var(--ink);
+  }
+  .ticker{
+    display:inline-block; padding:9px 0;
+    font-family:'JetBrains Mono', monospace; font-size:13px; letter-spacing:0.14em; font-weight:500;
+    animation: scroll 26s linear infinite;
+  }
+  .ticker span{ padding:0 1.4rem; }
+  @keyframes scroll{ from{ transform:translateX(0);} to{ transform:translateX(-50%);} }
+  @media (prefers-reduced-motion: reduce){ .ticker{ animation:none; } }
+
+  /* ---------- Header / nav ---------- */
+  header.site{
+    position:sticky; top:0; z-index:20;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 5vw;
+    background:var(--paper);
+    border-bottom:3px solid var(--ink);
+  }
+  .brand{
+    font-family:'Fraunces', serif; font-weight:700; font-size:1.15rem; letter-spacing:0.01em;
+  }
+  .brand em{ font-style:italic; color:var(--coral); }
+  nav.links{ display:flex; gap:1.6rem; font-family:'JetBrains Mono', monospace; font-size:0.72rem; letter-spacing:0.09em; text-transform:uppercase; }
+  nav.links a{ text-decoration:none; position:relative; padding-bottom:3px; }
+  nav.links a::after{ content:""; position:absolute; left:0; bottom:0; width:0; height:2px; background:var(--coral); transition:width 0.25s ease; }
+  nav.links a:hover::after{ width:100%; }
+  @media (max-width:640px){ nav.links{ display:none; } }
+
+  /* ---------- Hero: the poster ---------- */
+  .hero{
+    position:relative;
+    padding:9vw 5vw 6vw;
+    background:
+      radial-gradient(ellipse 60% 50% at 82% 10%, rgba(232,163,61,0.35), transparent 60%),
+      radial-gradient(ellipse 55% 45% at 10% 90%, rgba(62,124,107,0.28), transparent 60%),
+      var(--ink);
+    color:var(--cream);
+    overflow:hidden;
+    border-bottom:3px solid var(--ink);
+  }
+  .hero::before{
+    content:"";
+    position:absolute; inset:14px;
+    border:1.5px solid rgba(246,239,222,0.35);
+    pointer-events:none;
+  }
+  .kicker{
+    font-family:'JetBrains Mono', monospace; font-size:0.78rem; letter-spacing:0.22em; text-transform:uppercase;
+    color:var(--marigold); margin:0 0 1.4rem;
+  }
+  .kicker::before{ content:"● "; color:var(--coral); }
+  h1.name{
+    font-family:'Fraunces', serif; font-weight:900; font-style:normal;
+    font-size:clamp(3rem, 10vw, 7.4rem);
+    line-height:0.92; letter-spacing:-0.01em; margin:0;
+  }
+  h1.name .last{ display:block; color:transparent; -webkit-text-stroke:1.5px var(--cream); font-style:italic; font-weight:600; }
+  .tagline{
+    margin-top:1.8rem; max-width:44ch;
+    font-size:clamp(1.05rem,1.7vw,1.35rem); font-weight:300; color:rgba(251,246,234,0.88);
+    border-left:3px solid var(--coral); padding-left:1.1rem;
+  }
+  .hero-meta{
+    margin-top:3rem; display:flex; flex-wrap:wrap; gap:2.4rem;
+    font-family:'JetBrains Mono', monospace; font-size:0.82rem; color:rgba(251,246,234,0.75);
+  }
+  .hero-meta div span{ display:block; color:var(--marigold); font-size:0.68rem; letter-spacing:0.14em; text-transform:uppercase; margin-bottom:0.35rem; }
+  .stub{
+    position:absolute; top:9vw; right:5vw;
+    writing-mode:vertical-rl; text-orientation:mixed;
+    font-family:'JetBrains Mono', monospace; font-size:0.72rem; letter-spacing:0.22em; text-transform:uppercase;
+    color:rgba(251,246,234,0.55);
+    padding:1.2rem 0.5rem; border-left:1px dashed rgba(251,246,234,0.35);
+  }
+  @media (max-width:780px){ .stub{ display:none; } }
+
+  /* ---------- Section shell ---------- */
+  section{ padding:5.5rem 5vw; position:relative; }
+  .section-head{ display:flex; align-items:baseline; gap:1rem; margin-bottom:2.6rem; }
+  .num{ font-family:'JetBrains Mono', monospace; color:var(--coral); font-size:0.9rem; }
+  h2.title{
+    font-family:'Fraunces', serif; font-weight:600; font-style:italic;
+    font-size:clamp(1.9rem,4vw,3rem); margin:0;
+  }
+  .rule{ flex:1; height:1px; background:var(--line); }
+
+  /* ---------- About ---------- */
+  .about{ background:var(--cream); border-bottom:3px solid var(--ink); }
+  .about-grid{ display:grid; grid-template-columns:1.3fr 1fr; gap:3.5rem; align-items:start; }
+  @media (max-width:780px){ .about-grid{ grid-template-columns:1fr; } }
+  .about p{ font-size:1.12rem; line-height:1.75; font-weight:300; }
+  .about p strong{ font-weight:600; }
+  .lang-box{
+    border:2px solid var(--ink); background:var(--paper); padding:1.6rem; box-shadow:var(--shadow);
+  }
+  .lang-box h3{ font-family:'JetBrains Mono',monospace; font-size:0.75rem; letter-spacing:0.14em; text-transform:uppercase; margin:0 0 1rem; color:var(--teal); }
+  .lang-row{ display:flex; justify-content:space-between; align-items:center; padding:0.5rem 0; border-bottom:1px dashed var(--line); font-family:'Fraunces',serif; font-size:1.15rem; }
+  .lang-row:last-child{ border-bottom:none; }
+  .dots{ display:flex; gap:4px; }
+  .dots i{ width:8px; height:8px; border-radius:50%; background:var(--ink); display:block; }
+  .dots i.off{ background:transparent; border:1px solid var(--ink); }
+
+  /* ---------- Skills ---------- */
+  .skills{ background:var(--ink); color:var(--cream); border-bottom:3px solid var(--ink); }
+  .skills h2.title{ color:var(--marigold); }
+  .skills .num{ color:var(--marigold); }
+  .skills .rule{ background:rgba(251,246,234,0.2); }
+  .skill-groups{ display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:rgba(251,246,234,0.2); border:1px solid rgba(251,246,234,0.2); }
+  @media (max-width:900px){ .skill-groups{ grid-template-columns:repeat(2,1fr); } }
+  .skill-card{ background:var(--ink); padding:2rem 1.5rem; }
+  .skill-card h4{
+    font-family:'JetBrains Mono',monospace; font-size:0.7rem; letter-spacing:0.12em; text-transform:uppercase;
+    color:var(--coral); margin:0 0 1rem;
+  }
+  .skill-card ul{ list-style:none; margin:0; padding:0; }
+  .skill-card li{ font-family:'Fraunces',serif; font-size:1.15rem; padding:0.3rem 0; }
+
+  /* ---------- Project ---------- */
+  .project{ background:var(--paper); border-bottom:3px solid var(--ink); }
+  .project-card{
+    border:2px solid var(--ink); background:var(--cream); box-shadow:var(--shadow);
+    display:grid; grid-template-columns:1fr 1.6fr;
+  }
+  @media (max-width:780px){ .project-card{ grid-template-columns:1fr; } }
+  .project-visual{
+    background:
+      repeating-linear-gradient(135deg, var(--teal) 0px, var(--teal) 14px, #366a5c 14px, #366a5c 28px);
+    display:flex; align-items:center; justify-content:center; padding:2.4rem; border-right:2px solid var(--ink);
+  }
+  @media (max-width:780px){ .project-visual{ border-right:none; border-bottom:2px solid var(--ink); } }
+  .project-badge{
+    width:120px; height:120px; border-radius:50%; background:var(--paper); border:2px dashed var(--ink);
+    display:flex; align-items:center; justify-content:center; text-align:center;
+    font-family:'JetBrains Mono',monospace; font-size:0.7rem; letter-spacing:0.08em; text-transform:uppercase; padding:0.6rem;
+  }
+  .project-body{ padding:2.4rem 2.6rem; }
+  .project-body h3{ font-family:'Fraunces',serif; font-weight:700; font-size:1.9rem; margin:0 0 0.3rem; }
+  .project-duration{ font-family:'JetBrains Mono',monospace; font-size:0.75rem; color:var(--coral); letter-spacing:0.08em; text-transform:uppercase; margin-bottom:1.2rem; display:block; }
+  .project-body p{ font-size:1.05rem; line-height:1.7; font-weight:300; margin-bottom:1.4rem; }
+  .stack-tags{ display:flex; gap:0.6rem; flex-wrap:wrap; }
+  .stack-tags span{
+    font-family:'JetBrains Mono',monospace; font-size:0.72rem; padding:0.4rem 0.8rem; border:1.5px solid var(--ink);
+    text-transform:uppercase; letter-spacing:0.05em;
+  }
+  .stack-tags span:nth-child(1){ background:var(--marigold); }
+  .stack-tags span:nth-child(2){ background:var(--coral); color:var(--cream); }
+
+  /* ---------- Education timeline ---------- */
+  .edu{ background:var(--cream); border-bottom:3px solid var(--ink); }
+  .timeline{ position:relative; padding-left:2rem; }
+  .timeline::before{ content:""; position:absolute; left:0; top:6px; bottom:6px; width:2px; background:var(--ink); }
+  .t-item{ position:relative; padding:0 0 2.4rem 2rem; }
+  .t-item:last-child{ padding-bottom:0; }
+  .t-item::before{
+    content:""; position:absolute; left:-2.55rem; top:4px; width:14px; height:14px; border-radius:50%;
+    background:var(--coral); border:2px solid var(--ink);
+  }
+  .t-row{ display:flex; flex-wrap:wrap; justify-content:space-between; align-items:baseline; gap:0.6rem; }
+  .t-row h4{ font-family:'Fraunces',serif; font-size:1.35rem; margin:0; font-weight:600; }
+  .t-year{ font-family:'JetBrains Mono',monospace; font-size:0.78rem; color:var(--teal); }
+  .t-inst{ font-size:0.98rem; color:rgba(27,31,59,0.75); margin-top:0.25rem; }
+  .t-pct{
+    display:inline-block; margin-top:0.6rem; font-family:'JetBrains Mono',monospace; font-size:0.75rem;
+    background:var(--ink); color:var(--marigold); padding:0.25rem 0.65rem;
+  }
+
+  /* ---------- Co-curricular + hobbies ---------- */
+  .extras{ background:var(--ink); color:var(--cream); border-bottom:3px solid var(--ink); }
+  .extras h2.title{ color:var(--marigold); }
+  .extras .num{ color:var(--marigold); }
+  .extras .rule{ background:rgba(251,246,234,0.2); }
+  .extras-grid{ display:grid; grid-template-columns:1fr 1fr; gap:2.5rem; }
+  @media (max-width:780px){ .extras-grid{ grid-template-columns:1fr; } }
+  .extras-grid h3{ font-family:'JetBrains Mono',monospace; font-size:0.72rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--coral); margin:0 0 1.2rem; }
+  .co-item{ border-bottom:1px dashed rgba(251,246,234,0.25); padding:1rem 0; font-size:1.02rem; font-weight:300; line-height:1.6; }
+  .co-item:first-of-type{ padding-top:0; }
+  .hobby-tags{ display:flex; flex-wrap:wrap; gap:0.7rem; }
+  .hobby-tags span{
+    font-family:'Fraunces',serif; font-style:italic; font-size:1rem; padding:0.55rem 1.1rem;
+    border:1.5px solid rgba(251,246,234,0.4); border-radius:999px;
+  }
+  .hobby-tags span:nth-child(4n+1){ transform:rotate(-2deg); }
+  .hobby-tags span:nth-child(4n+2){ transform:rotate(1.5deg); }
+  .hobby-tags span:nth-child(4n+3){ transform:rotate(-1deg); }
+
+  /* ---------- Footer / contact ---------- */
+  footer{
+    background:var(--paper); padding:6rem 5vw 3rem; text-align:center; position:relative;
+  }
+  .footer-headline{
+    font-family:'Fraunces',serif; font-weight:900; font-size:clamp(2.2rem,6vw,4.4rem);
+    line-height:1.02; margin:0 0 1.6rem;
+  }
+  .footer-headline em{ font-style:italic; color:var(--coral); }
+  .contact-row{
+    display:flex; justify-content:center; gap:2.6rem; flex-wrap:wrap; margin-bottom:3rem;
+    font-family:'JetBrains Mono',monospace; font-size:0.9rem;
+  }
+  .contact-row a{ text-decoration:none; border-bottom:1.5px solid var(--ink); padding-bottom:2px; }
+  .contact-row a:hover{ color:var(--coral); border-color:var(--coral); }
+  .fine{ font-family:'JetBrains Mono',monospace; font-size:0.7rem; letter-spacing:0.08em; color:rgba(27,31,59,0.55); text-transform:uppercase; }
+</style>
+</head>
+<body>
+<div class="grain"></div>
+
+<div class="ticker-wrap">
+  <div class="ticker">
+    <span>BANK MANAGEMENT SYSTEM</span><span>·</span><span>VISUAL BASIC + MS ACCESS</span><span>·</span><span>B.Sc. MADURAI, 2014</span><span>·</span><span>CHENNAI, TAMIL NADU</span><span>·</span>
+    <span>BANK MANAGEMENT SYSTEM</span><span>·</span><span>VISUAL BASIC + MS ACCESS</span><span>·</span><span>B.Sc. MADURAI, 2014</span><span>·</span><span>CHENNAI, TAMIL NADU</span><span>·</span>
+  </div>
+</div>
+
+<header class="site">
+  <div class="brand">A. <em>Mariammal</em></div>
+  <nav class="links">
+    <a href="#about">Profile</a>
+    <a href="#skills">Skills</a>
+    <a href="#project">Project</a>
+    <a href="#education">Education</a>
+    <a href="#more">More</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="stub">FRESH GRADUATE &nbsp;/&nbsp; READY TO LEARN</div>
+  <p class="kicker">Career Objective — Now Showing</p>
+  <h1 class="name">MARIAMMAL<span class="last">A.</span></h1>
+  <p class="tagline">A dedicated graduate with strong technical foundations, a problem-solver's instinct, and a genuine appetite for new technology.</p>
+  <div class="hero-meta">
+    <div><span>Based in</span>Chennai, Tamil Nadu</div>
+    <div><span>Speaks</span>Tamil · English</div>
+    <div><span>Focus</span>VB · .NET · SQL · HTML</div>
+  </div>
+</section>
+
+<section class="about" id="about">
+  <div class="section-head"><span class="num">01</span><h2 class="title">Profile</h2><span class="rule"></span></div>
+  <div class="about-grid reveal">
+    <p>I'm a graduate who enjoys taking a problem apart to see how it works. My academic background is in <strong>Visual Basic and .NET development</strong>, with hands-on comfort in <strong>SQL and MS Access</strong> for anything data-related. I pick up new tools quickly and like applying them in real, practical settings rather than just in theory.</p>
+    <div class="lang-box">
+      <h3>Languages</h3>
+      <div class="lang-row">Tamil <div class="dots"><i></i><i></i><i></i><i></i></div></div>
+      <div class="lang-row">English <div class="dots"><i></i><i></i><i></i><i class="off"></i></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="skills" id="skills">
+  <div class="section-head"><span class="num">02</span><h2 class="title">Technical Skills</h2><span class="rule"></span></div>
+  <div class="skill-groups reveal">
+    <div class="skill-card">
+      <h4>Operating Systems</h4>
+      <ul><li>Windows XP</li><li>Windows 7</li></ul>
+    </div>
+    <div class="skill-card">
+      <h4>Languages</h4>
+      <ul><li>Visual Basic</li><li>.NET</li></ul>
+    </div>
+    <div class="skill-card">
+      <h4>Web</h4>
+      <ul><li>HTML</li></ul>
+    </div>
+    <div class="skill-card">
+      <h4>Database</h4>
+      <ul><li>SQL</li><li>MS Access</li></ul>
+    </div>
+  </div>
+</section>
+
+<section class="project" id="project">
+  <div class="section-head"><span class="num">03</span><h2 class="title">Academic Project</h2><span class="rule"></span></div>
+  <div class="project-card reveal">
+    <div class="project-visual">
+      <div class="project-badge">6&nbsp;MONTH<br>BUILD</div>
+    </div>
+    <div class="project-body">
+      <span class="project-duration">Duration · 6 Months</span>
+      <h3>Bank Management System</h3>
+      <p>Built to manage customer accounts, transactions, and everyday banking operations — designed and developed end to end, from interface to database.</p>
+      <div class="stack-tags">
+        <span>Frontend — Visual Basic 6.0</span>
+        <span>Backend — MS Access</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="edu" id="education">
+  <div class="section-head"><span class="num">04</span><h2 class="title">Education</h2><span class="rule"></span></div>
+  <div class="timeline reveal">
+    <div class="t-item">
+      <div class="t-row"><h4>B.Sc. — Final Year</h4><span class="t-year">2013 – 2014</span></div>
+      <div class="t-inst">NMSSVN College of Arts and Science, Nagamalai, Madurai</div>
+      <span class="t-pct">83%</span>
+    </div>
+    <div class="t-item">
+      <div class="t-row"><h4>B.Sc. — Second Year</h4><span class="t-year">2012 – 2013</span></div>
+      <div class="t-inst">NMSSVN College of Arts and Science, Nagamalai, Madurai</div>
+      <span class="t-pct">82%</span>
+    </div>
+    <div class="t-item">
+      <div class="t-row"><h4>B.Sc. — First Year</h4><span class="t-year">2011 – 2012</span></div>
+      <div class="t-inst">NMSSVN College of Arts and Science, Nagamalai, Madurai</div>
+      <span class="t-pct">82%</span>
+    </div>
+    <div class="t-item">
+      <div class="t-row"><h4>Higher Secondary (HSC)</h4><span class="t-year">2010 – 2011</span></div>
+      <div class="t-inst">Holy Family Girls Higher Secondary School, Madurai</div>
+      <span class="t-pct">77%</span>
+    </div>
+    <div class="t-item">
+      <div class="t-row"><h4>SSLC</h4><span class="t-year">2008 – 2009</span></div>
+      <div class="t-inst">Holy Family Girls Higher Secondary School, Madurai</div>
+      <span class="t-pct">86%</span>
+    </div>
+  </div>
+</section>
+
+<section class="extras" id="more">
+  <div class="section-head"><span class="num">05</span><h2 class="title">Beyond the Classroom</h2><span class="rule"></span></div>
+  <div class="extras-grid reveal">
+    <div>
+      <h3>Co-Curricular Activities</h3>
+      <div class="co-item">Presented a paper on Nanotechnology at Arunachalam University, Kanyakumari.</div>
+      <div class="co-item">Participated in a PHP Workshop conducted by the MCA Department, SVN College, Madurai.</div>
+    </div>
+    <div>
+      <h3>Hobbies &amp; Interests</h3>
+      <div class="hobby-tags">
+        <span>Arts &amp; crafts</span>
+        <span>Browsing to learn</span>
+        <span>Listening to music</span>
+        <span>Team activities</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p class="footer-headline">Let's build<br><em>something</em> together.</p>
+  <div class="contact-row">
+    <a href="tel:+919025433792">+91 90254 33792</a>
+    <a href="mailto:mariarumugam1993@gmail.com">mariarumugam1993@gmail.com</a>
+    <span>Kolapakkam, Chennai – 600128</span>
+  </div>
+  <p class="fine">A. Mariammal — Portfolio · Chennai, Tamil Nadu</p>
+</footer>
+
+<script>
+  const els = document.querySelectorAll('.reveal');
+  if('IntersectionObserver' in window){
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold:0.15 });
+    els.forEach(el=>io.observe(el));
+  } else {
+    els.forEach(el=>el.classList.add('in'));
+  }
+</script>
+
+</body>
+</html>
